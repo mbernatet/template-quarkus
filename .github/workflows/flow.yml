@@ -40,13 +40,13 @@ jobs:
             type=ref,event=branch
             type=ref,event=pr
             type=sha
+          sep-tags: ','
 
       - name: Build & push docker image
         run: |
-          export IMAGE_TAGS="${DOCKER_METADATA_OUTPUT_TAGS//$'\n'/,}"
           # quarkus only need the tag names, so remove the repository part for each tag
           export IMAGE_REPO="${IMAGE_REGISTRY}/${IMAGE_GROUP}/${IMAGE_NAME}"
-          export IMAGE_TAGS="${IMAGE_TAGS//${IMAGE_REPO}:/}"
+          export IMAGE_TAGS="${DOCKER_METADATA_OUTPUT_TAGS//${IMAGE_REPO}:/}"
           mvn -B verify \
           -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml \
           -Pnative -Dquarkus.native.container-build=true \
@@ -55,7 +55,7 @@ jobs:
           -Dquarkus.container-image.group=${IMAGE_GROUP} \
           -Dquarkus.container-image.name=${IMAGE_NAME} \
           -Dquarkus.container-image.tag=${DOCKER_METADATA_OUTPUT_VERSION} \
-          -Dquarkus.container-image.additional-tags="${IMAGE_TAGS//$'\n'/,}" \
+          -Dquarkus.container-image.additional-tags=${IMAGE_TAGS} \
           -Dquarkus.container-image.push=true
         env:
           QUARKUS_CONTAINER_IMAGE_USERNAME: ${{ github.actor }}
