@@ -48,9 +48,10 @@ jobs:
           -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml \
           -Pnative -Dquarkus.native.container-build=true \
           -Dquarkus.container-image.build=true \
-          -Dquarkus.container-image.image=${IMAGE_NAME} \
-          -Dquarkus.container-image.additional-tags=${IMAGE_TAGS} \
-          -Dquarkus.container-image.push=true
+          -Dquarkus.container-image.image=${IMAGE_NAME}:${DOCKER_METADATA_OUTPUT_VERSION} \
+          -Dquarkus.container-image.additional-tags=${IMAGE_TAGS}
+          docker login -u "${QUARKUS_CONTAINER_IMAGE_USERNAME}" -p "${QUARKUS_CONTAINER_IMAGE_PASSWORD}" ghcr.io/mbernatet
+          docker push -a ${IMAGE_NAME}
         env:
           QUARKUS_CONTAINER_IMAGE_USERNAME: ${{ github.actor }}
           QUARKUS_CONTAINER_IMAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
