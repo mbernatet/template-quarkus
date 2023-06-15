@@ -31,7 +31,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.IMAGE_NAME }}
           flavor: |
             latest=false
           tags: |
@@ -42,14 +41,12 @@ jobs:
 
       - name: Build & push docker image
         run: |
-          # quarkus only need the tag names, so remove the repository part for each tag
-          export IMAGE_TAGS="${DOCKER_METADATA_OUTPUT_TAGS//${IMAGE_NAME}:/}"
           mvn -B verify \
           -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml \
           -Pnative -Dquarkus.native.container-build=true \
           -Dquarkus.container-image.build=true \
           -Dquarkus.container-image.image=${IMAGE_NAME}:${DOCKER_METADATA_OUTPUT_VERSION} \
-          -Dquarkus.container-image.additional-tags=${IMAGE_TAGS}
+          -Dquarkus.container-image.additional-tags=${DOCKER_METADATA_OUTPUT_TAGS}
           docker login -u "${QUARKUS_CONTAINER_IMAGE_USERNAME}" -p "${QUARKUS_CONTAINER_IMAGE_PASSWORD}" ghcr.io/mbernatet
           docker push -a ${IMAGE_NAME}
         env:
