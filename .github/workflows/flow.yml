@@ -41,17 +41,14 @@ jobs:
           sep-tags: ','
 
       - name: Build & push docker image
-        run: |
-          # quarkus only need the tag names, so remove the repository part for each tag
-          export IMAGE_TAGS="${DOCKER_METADATA_OUTPUT_TAGS//${IMAGE_NAME}:/}"
-          mvn -B verify \
-          -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml \
-          -Dquarkus.container-image.build=true \
-          -Dquarkus.container-image.image=${IMAGE_NAME}:${DOCKER_METADATA_OUTPUT_VERSION} \
-          -Dquarkus.container-image.additional-tags=${IMAGE_TAGS}
-          docker login -u "${QUARKUS_CONTAINER_IMAGE_USERNAME}" -p "${QUARKUS_CONTAINER_IMAGE_PASSWORD}" ghcr.io/mbernatet
-          docker push -a ${IMAGE_NAME}
+        run: mvn quarkus:build -B -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml
         env:
+          QUARKUS_CONTAINER_IMAGE_BUILD: true
+          QUARKUS_CONTAINER_IMAGE_REGISTRY: ghcr.io
+          QUARKUS_CONTAINER_IMAGE_GROUP: fr-bod-psd
+          QUARKUS_CONTAINER_IMAGE_NAME: catalog-manager
+          QUARKUS_CONTAINER_IMAGE_TAG: ${DOCKER_METADATA_OUTPUT_VERSION}
+          QUARKUS_CONTAINER_IMAGE_PUSH: true
           QUARKUS_CONTAINER_IMAGE_USERNAME: ${{ github.actor }}
           QUARKUS_CONTAINER_IMAGE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ secrets.BOT_USER_NAME }}
