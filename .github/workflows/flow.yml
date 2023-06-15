@@ -46,7 +46,7 @@ jobs:
           export IMAGE_TAGS="${DOCKER_METADATA_OUTPUT_TAGS//${IMAGE_NAME}:/}"
           mvn -B verify \
           -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml \
-#          -Pnative -Dquarkus.native.container-build=true \
+          # -Pnative -Dquarkus.native.container-build=true \
           -Dquarkus.container-image.build=true \
           -Dquarkus.container-image.image=${IMAGE_NAME}:${DOCKER_METADATA_OUTPUT_VERSION} \
           -Dquarkus.container-image.additional-tags=${IMAGE_TAGS}
