@@ -17,7 +17,7 @@ jobs:
     uses: mbernatet/reusable-workflows/.github/workflows/quarkus.yml@main
     with:
       java-version: '11'
-      java-native: true
+      java-native: false
       image-name: ghcr.io/mbernatet/template-quarkus
       image-push: true
     secrets:
