@@ -18,7 +18,7 @@ jobs:
     with:
       java-version: '11'
       java-native: true
-      image-name: ${{ env.IMAGE_NAME }}
+      image-name: ghcr.io/mbernatet/template-quarkus
       image-push: true
     secrets:
       container-registry-username: ${{ github.actor }}
