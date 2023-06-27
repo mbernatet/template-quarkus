@@ -4,13 +4,16 @@ on:
   push:
   workflow_dispatch:
     inputs:
-      version:
+      releaseVersion:
         type: text
-        required: true
-        description: release version
-      release:
-        type: boolean
-        required: true
+        required: false
+        description: release version (must follow x.y.z format)
+        default: auto
+      nextDevelopmentVersion:
+        type: text
+        required: false
+        description: next development version (must follow x.y.z-SNAPSHOT format)
+        default: auto
 
 permissions:
   contents: read
