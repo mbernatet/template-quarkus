@@ -7,6 +7,7 @@ on:
       version:
         type: text
         required: true
+        description: release version
       release:
         type: boolean
         required: true
