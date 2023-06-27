@@ -3,6 +3,13 @@ name: Quarkus CI
 on:
   push:
   workflow_dispatch:
+    inputs:
+      version:
+        type: text
+        required: true
+      release:
+        type: boolean
+        required: true
 
 permissions:
   contents: read
