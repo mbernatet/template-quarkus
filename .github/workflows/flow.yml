@@ -21,14 +21,6 @@ env:
 
 jobs:
   build-push:
-    uses: mbernatet/reusable-workflows/.github/workflows/quarkus.yml@main
-    with:
-      java-version: '11'
-      java-native: false
-      image-name: ghcr.io/mbernatet/template-quarkus
-      image-push: true
-    secrets:
-      container-registry-username: ${{ github.actor }}
-      container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-      maven-registry-username: ${{ secrets.BOT_USER_NAME }}
-      maven-registry-password: ${{ secrets.BOT_ACCESS_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo hi
