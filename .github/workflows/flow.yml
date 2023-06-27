@@ -7,12 +7,12 @@ on:
       releaseVersion:
         type: text
         required: false
-        description: release version (must follow x.y.z format)
+        description: release version (must follow x.y.z format), interpolated from pom file by default
         default: auto
       nextDevelopmentVersion:
         type: text
         required: false
-        description: next development version (must follow x.y.z-SNAPSHOT format)
+        description: next development version (must follow x.y.z-SNAPSHOT format), interpolated from pom file by default
         default: auto
 
 permissions:
